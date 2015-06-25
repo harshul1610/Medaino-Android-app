@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.medaino.www.medainoandroid.terminalact">
+
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="wrap_content"
+        android:layout_height="420dp"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:textColor="#ff000000"
+        android:background="#fff2fff5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/fld_data"
+        android:textStyle="italic" />
+
+    <EditText
+        android:id="@+id/fld_data"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:paddingLeft="5dp"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center_vertical"
+        android:hint="@string/lbl_enter_txt"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffff606c" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SEND"
+        android:id="@+id/sendbutton"
+        android:textColor="#ff010101"
+        android:textSize="20sp"
+        android:background="@android:color/holo_orange_light"
+        android:layout_alignRight="@+id/display"
+        android:layout_alignEnd="@+id/display"
+        android:layout_alignTop="@+id/fld_data"
+        android:layout_alignBottom="@+id/fld_data"
+        android:clickable="true"
+        />
+
+
+</RelativeLayout>

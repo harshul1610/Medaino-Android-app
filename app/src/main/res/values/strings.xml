@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">medainoandroid</string>
+
+    <string name="bl_con">Medaino-Klop</string>
+    <string name="action_settings">Settings</string>
+    <string name="lbl_enter_com">Enter comport</string>
+    <string name="title_activity_klopresults">klopresults</string>
+    <string name="lbl_enter_txt">Enter text</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_gg">gg</string>
+    <string name="title_activity_scanklop">Scanklop</string>
+    <string name="title_activity_userdetails">userdetails</string>
+    <string name="title_activity_medoptions">Medoptions</string>
+    <string name="title_activity_terminalact">terminalact</string>
+    <string name="title_activity_plotdata">plotdata</string>
+    <string name="title_activity_my">MY</string>
+</resources>
