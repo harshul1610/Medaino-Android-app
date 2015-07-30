@@ -19,6 +19,9 @@ import java.util.UUID;
 
 
 public class terminalact extends Activity {
+    BluetoothSocket mmSocket;
+    InputStream mmInStream=null;
+    OutputStream mmOutStream=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +33,25 @@ public class terminalact extends Activity {
         con_bl.start();
     }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        try {
+            mmInStream.close();
+            mmOutStream.close();
+            mmSocket.close();
+        }
+        catch (IOException e)
+        {
 
+        }
+
+
+    }
 
 
     class ConnectThread extends Thread {
-        BluetoothSocket mmSocket=null;
         BluetoothDevice mmDevice;
         UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
@@ -77,9 +94,7 @@ public class terminalact extends Activity {
 
     class ConnectedThread extends Thread {
 
-        BluetoothSocket mmSocket;
-        InputStream mmInStream=null;
-        OutputStream mmOutStream=null;
+
         String data=new String();
         int readBufferPosition=0;
         TextView terminal=(TextView)findViewById(R.id.display);
@@ -144,7 +159,6 @@ public class terminalact extends Activity {
                 //    //within while   */
 
 
-
                 runOnUiThread(new Runnable() {
                     public void run() {
                         SEND.setOnClickListener(new View.OnClickListener() {
@@ -158,8 +172,7 @@ public class terminalact extends Activity {
                                     mmOutStream.write(datatext.getBytes());
                                     terminal.setText(datatext);
                                     da_to_send.setText("");
-                                }
-                                catch (IOException e)
+                                } catch (IOException e)
 
                                 {
                                     Log.d("writteerr", "can't send data");
@@ -183,6 +196,13 @@ public class terminalact extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_terminalact, menu);
         return true;
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+
     }
 
     @Override

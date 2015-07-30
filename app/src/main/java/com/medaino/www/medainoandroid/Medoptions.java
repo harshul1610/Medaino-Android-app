@@ -3,7 +3,6 @@ package com.medaino.www.medainoandroid;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +36,7 @@ public class Medoptions extends Activity {
   public void plot(View v)
   {
       Intent intent = new Intent(this, plotdata.class);
+      intent.putExtra("key2", tmp1);
       startActivity(intent);
   }
 
