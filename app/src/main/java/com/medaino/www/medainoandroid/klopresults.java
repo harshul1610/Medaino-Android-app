@@ -2,43 +2,39 @@ package com.medaino.www.medainoandroid;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.os.Message;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-
-public class klopresults extends Activity{
+public class klopresults extends Activity
+{
     BluetoothSocket mmSocket;
     InputStream mmInStream=null;
     OutputStream mmOutStream=null;
     String data=new String(" ");
-    String red=new String();
-    String ir=new String();
+    String red=new String("0");
+    String ir=new String("0");
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klopresults);
-        BluetoothDevice tmpl=(BluetoothDevice)getIntent().getExtras().getParcelable("key2");
+        BluetoothDevice tmpl = (BluetoothDevice) getIntent().getExtras().getParcelable("key3");
 
-        ConnectThread con_bl=new ConnectThread(tmpl);
+        ConnectThread con_bl = new ConnectThread(tmpl);
         con_bl.start();
+        Log.d("1","pass1");
+        hr_resp rateobj=new hr_resp();
+        Log.d("2","pass2");
+        rateobj.start();
 
     } //end of oncreate method
 
@@ -56,8 +52,6 @@ public class klopresults extends Activity{
         {
 
         }
-
-
     }
 
     @Override
@@ -80,6 +74,37 @@ public class klopresults extends Activity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class hr_resp extends Thread
+    {
+        int N=64;
+        double[] real=new double[N+1];
+        double[] imag=new double[N+1];
+        double[] mag=new double[N+1];
+        double[] freq=new double[N+1];
+        fft fftobj;
+
+
+        public void run() {
+            int i=0,j=1;
+
+           while(true) {
+               for (i = 0, j = 1; i < N; i++)
+               {
+
+                   int x = Integer.parseInt(ir);
+                   real[i] = (double) x;
+                   imag[i] = (double) 0;
+                   freq[i] = ((1 / 0.200) * j) / N;
+                   j++;
+               }
+               fftobj = new fft(real, imag, N);
+               mag = fftobj.cal_fft();
+               Log.d("6", "pass6");
+           }
+        }
+
     }
 
     class ConnectThread extends Thread
@@ -221,6 +246,120 @@ public class klopresults extends Activity{
         }          //end of run
 
 
+    }
+
+
+
+    public class fft
+    {
+        int N;
+        double[] inreal;
+        double[] inimag;
+        double[] out;
+
+
+        public fft(double[]real1,double[]imag1,int N1)
+        {
+
+            this.N=N1;
+            inreal=new double[N+1];
+            inimag=new double[N+1];
+            out=new double[N+1];
+            int j=0;
+            for(j=0;j<N;j++)
+            {
+                inreal[j]=real1[j];
+                inimag[j]=imag1[j];
+            }
+        }
+        public double[] cal_fft()
+        {
+            int span,subpart,node,n=0,k=0;
+            double temp,imagtwiddle,realtwiddle,primitive_root,angle;
+            for(span=N;span>=1;span>>=1)
+            {
+
+                primitive_root=((2*3.14)/N);
+
+                for(subpart=0;subpart<((N>>1))/span;subpart++)
+                {
+                    for( node=0;node<span;node++)
+                    {
+                        temp=inreal[n]+inreal[n+span];
+                        inreal[n+span]=inreal[n]-inreal[n+span];
+                        inreal[n]=temp;
+                        temp=inimag[n]+inimag[n+span];
+                        inimag[n+span]=inimag[n]-inimag[n+span];
+                        inimag[n]=temp;
+
+                        angle=primitive_root*node;
+                        realtwiddle=Math.cos(angle);
+                        imagtwiddle=Math.sin(angle);
+                        temp=realtwiddle*inreal[n+span]-imagtwiddle*inimag[n+span];
+                        inimag[n+span]=realtwiddle*inimag[n+span]+imagtwiddle*inreal[n+span];
+                        inreal[n+span]=temp;
+
+                        n++;
+                    }
+                    n=((n+span)&(N-1));
+                }
+
+            }
+
+            for(k=0;k<N;k++)
+            {
+                out[k]=Math.sqrt(inreal[k]*inreal[k]+inimag[k]*inimag[k]);
+            }
+            return out;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
     }
 
 }
