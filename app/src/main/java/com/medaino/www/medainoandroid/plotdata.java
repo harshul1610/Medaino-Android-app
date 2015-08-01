@@ -52,7 +52,7 @@ public class plotdata extends Activity {
         viewport.setYAxisBoundsManual(true);
         viewport.setMinY(0);
         viewport.setMaxY(800);
-        viewport.setScrollable(true);
+        viewport.setScrollable(false);
 
 
 
@@ -97,7 +97,7 @@ public class plotdata extends Activity {
 
                     // sleep to slow down the add of entries
                     try {
-                        Thread.sleep(600);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         // manage error ...
                     }
